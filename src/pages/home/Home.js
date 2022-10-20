@@ -23,9 +23,9 @@ export default function Home() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100%;
+  justify-content: center;
+  height: 100vh;
   width: 100%;
   a {
     font-family: "Lexend Deca", sans-serif;
@@ -34,7 +34,6 @@ const Container = styled.div`
     text-align: center;
     text-decoration-line: underline;
     margin-top: 25px;
-
     color: #52b6ff;
   }
 `;
@@ -43,8 +42,9 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 90%;
   input {
-    width: 160%;
+    width: 90%;
     height: 45px;
     margin-bottom: 6px;
     border: 1px solid #d5d5d5;
@@ -59,7 +59,7 @@ const Form = styled.form`
     }
   }
   button {
-    width: 160%;
+    width: 90%;
     height: 45px;
     background: #52b6ff;
     border-radius: 4.6px;
@@ -73,8 +73,8 @@ const Form = styled.form`
 `;
 
 const Image = styled.div`
-  margin-top: 68px;
   width: 180px;
+  
   img {
     width: 100%;
   }

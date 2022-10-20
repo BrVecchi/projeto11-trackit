@@ -5,6 +5,7 @@ import Registration from "./pages/registration/Registration";
 import Historic from "./pages/historic/Historic";
 import ResetCSS from "./assets/styles/ResetCSS";
 import GlobalStyle from "./assets/styles/GlobalStyle";
+import Today from "./pages/hoje/Today";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/cadastro" element={<Registration/>} />
         <Route path="/habitos" element={<Habits/>} />
+        <Route path="/hoje" element={<Today/>} />
         <Route path="/historico" element={<Historic/>} />
       </Routes>
     </BrowserRouter>

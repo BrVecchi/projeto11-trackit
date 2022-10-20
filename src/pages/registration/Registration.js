@@ -27,7 +27,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   a {
     font-family: "Lexend Deca", sans-serif;
@@ -75,7 +75,6 @@ const Form = styled.form`
 `;
 
 const Image = styled.div`
-  margin-top: 68px;
   width: 180px;
   img {
     width: 100%;
