@@ -11,10 +11,13 @@ export default function Bpttom() {
   function linkHistorico() {
     navigate("/historico")
   }
+  function linkHoje() {
+    navigate("/hoje")
+  }
   return (
     <Bot>
       <span onClick={linkHabitos}>Hábitos</span>
-      <div>Hoje
+      <div onClick={linkHoje} >Hoje
       <Bord src={Border} alt="element border" />
       <BordBall1 src={Ball} alt="element border" />
       <BordBall2 src={Ball} alt="element border" />

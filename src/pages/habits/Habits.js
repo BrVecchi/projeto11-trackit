@@ -1,24 +1,25 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
 import Bottom from "../../components/Bottom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import MyContext from "../../components/MyContext";
 
 export default function Habits() {
+  const { dados, setDados } = useContext(MyContext)
+  console.log(dados)
   const DIAS = [
-    { name: "D", day: 1 },
-    { name: "S", day: 2 },
-    { name: "T", day: 3 },
+    { name: "D", day: 0 },
+    { name: "S", day: 1 },
+    { name: "T", day: 2 },
+    { name: "Q", day: 3 },
     { name: "Q", day: 4 },
-    { name: "Q", day: 5 },
+    { name: "S", day: 5 },
     { name: "S", day: 6 },
-    { name: "S", day: 7 },
   ];
-  const [habits, setHabits] = useState([]);
   const [diasMarcados, setDiasMarcados] = useState([]);
   const [formState, setFormState] = useState("none");
   const [buttonSymbol, setButtonSymbol] = useState("+");
   const [buttonColor, setButtonColor] = useState("#52b6ff");
-  console.log(diasMarcados);
   function marcarDia(dia) {
     let novoDiasMarcados = [...diasMarcados];
     if (diasMarcados.includes(dia.day)) {
@@ -47,7 +48,7 @@ export default function Habits() {
     setFormState(novoFormState);
     setButtonColor(novoButtonColor);
     setButtonSymbol(novoButtonSymbol);
-    setDiasMarcados([])
+    setDiasMarcados([]);
   }
 
   return (

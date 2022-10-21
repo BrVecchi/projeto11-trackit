@@ -1,15 +1,18 @@
 import styled from "styled-components";
 import UserImg from "../assets/images/user.png"
 import TextLogo from "../assets/images/textLogo.png"
+import { useContext } from "react";
+import MyContext from "./MyContext";
 
 export default function Header() {
+  const { dados, setDados } = useContext(MyContext)
   return (
     <Head>
       <Logo>
         <img src={TextLogo} alt="Logo text" />
       </Logo>
       <User>
-        <img src={UserImg} alt="User image" />
+        <img src={dados.image} alt="User image" />
       </User>
     </Head>
   );
@@ -44,5 +47,8 @@ const User = styled.div`
     img {
       width: 100%;
       height: auto;
+      border-radius: 98.5px;
+      width: 51px;
+      height: 51px;
     }
 `

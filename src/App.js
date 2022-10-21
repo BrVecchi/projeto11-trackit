@@ -6,21 +6,28 @@ import Historic from "./pages/historic/Historic";
 import ResetCSS from "./assets/styles/ResetCSS";
 import GlobalStyle from "./assets/styles/GlobalStyle";
 import Today from "./pages/hoje/Today";
+import { useState } from "react";
+import MyContext from "./components/MyContext";
 
 function App() {
+  const [dados, setDados] = useState({});
   return (
-    <BrowserRouter>
-    <ResetCSS/>
-    <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/cadastro" element={<Registration/>} />
-        <Route path="/habitos" element={<Habits/>} />
-        <Route path="/hoje" element={<Today/>} />
-        <Route path="/historico" element={<Historic/>} />
-      </Routes>
-    </BrowserRouter>
-  )
+    <MyContext.Provider
+      value={{ dados, setDados }}
+    >
+      <BrowserRouter>
+        <ResetCSS />
+        <GlobalStyle />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cadastro" element={<Registration />} />
+          <Route path="/habitos" element={<Habits />} />
+          <Route path="/hoje" element={<Today />} />
+          <Route path="/historico" element={<Historic />} />
+        </Routes>
+      </BrowserRouter>
+    </MyContext.Provider>
+  );
 }
 
 export default App;
