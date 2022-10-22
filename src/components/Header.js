@@ -1,18 +1,24 @@
 import styled from "styled-components";
-import UserImg from "../assets/images/user.png"
 import TextLogo from "../assets/images/textLogo.png"
 import { useContext } from "react";
 import MyContext from "./MyContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-  const { dados, setDados } = useContext(MyContext)
+  const { dados } = useContext(MyContext)
+  const navigate = useNavigate()
+
+  function goHome(e) {
+    e.preventDefault()
+    navigate("/")
+  }
   return (
     <Head>
-      <Logo>
+      <Logo onClick={goHome}>
         <img src={TextLogo} alt="Logo text" />
       </Logo>
       <User>
-        <img src={dados.image} alt="User image" />
+        <img src={dados.image} alt="User" />
       </User>
     </Head>
   );

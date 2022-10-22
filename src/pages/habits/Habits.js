@@ -1,12 +1,14 @@
+import MyContext from "../../components/MyContext";
 import styled from "styled-components";
 import Header from "../../components/Header";
 import Bottom from "../../components/Bottom";
-import { useContext, useState } from "react";
-import MyContext from "../../components/MyContext";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import Habito from "../../components/Habito";
 
 export default function Habits() {
-  const { dados, setDados } = useContext(MyContext)
-  console.log(dados)
+  const { dados } = useContext(MyContext);
+  const [habits, setHabits] = useState([]);
   const DIAS = [
     { name: "D", day: 0 },
     { name: "S", day: 1 },
@@ -16,10 +18,26 @@ export default function Habits() {
     { name: "S", day: 5 },
     { name: "S", day: 6 },
   ];
+  const token = dados.token;
   const [diasMarcados, setDiasMarcados] = useState([]);
   const [formState, setFormState] = useState("none");
   const [buttonSymbol, setButtonSymbol] = useState("+");
   const [buttonColor, setButtonColor] = useState("#52b6ff");
+  const [habitName, setHabitName] = useState("");
+  const [runEffect, setRunEffect] = useState(0)
+
+  useEffect(() => {
+    const request = axios.get(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    request.then((res) => {
+      setHabits(res.data);
+    });
+  }, [runEffect]);
+
   function marcarDia(dia) {
     let novoDiasMarcados = [...diasMarcados];
     if (diasMarcados.includes(dia.day)) {
@@ -51,27 +69,57 @@ export default function Habits() {
     setDiasMarcados([]);
   }
 
+  function saveHabit(e) {
+    e.preventDefault();
+    const novoButtonSymbol = "+";
+    const novoButtonColor = "#52b6ff";
+    const request = axios.post(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+      {
+        name: habitName,
+        days: diasMarcados,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    request.then(() =>{
+      setFormState("none")
+      setRunEffect(runEffect+1)
+      setButtonSymbol(novoButtonSymbol)
+      setButtonColor(novoButtonColor);
+    })
+  }
+
   return (
     <Container>
       <Header />
       <MyHabits>
         <Top>
-          <span>Meus hábitos</span>
+          <Title>Meus hábitos</Title>
           <Add color={buttonColor} onClick={abrirForm}>
             {buttonSymbol}
           </Add>
         </Top>
-        <Form display={formState}>
-          <NomeHabito placeholder="nome do hábito" type="text" />
+        <Form onSubmit={saveHabit} display={formState}>
+          <NomeHabito
+            required
+            id="habit"
+            name="habit"
+            value={habitName}
+            onChange={(event) => setHabitName(event.target.value)}
+            type="text"
+            placeholder="nome do hábito"
+          />
           <Dias>
-            {DIAS.map((dia) =>
+            {DIAS.map((dia, i) =>
               diasMarcados.includes(dia.day) ? (
-                <DiaEscolhido onClick={() => marcarDia(dia)}>
+                <DiaEscolhido key={i} onClick={() => marcarDia(dia)}>
                   {" "}
                   {dia.name}{" "}
                 </DiaEscolhido>
               ) : (
-                <DiaDisponivel onClick={() => marcarDia(dia)}>
+                <DiaDisponivel key={i} onClick={() => marcarDia(dia)}>
                   {" "}
                   {dia.name}{" "}
                 </DiaDisponivel>
@@ -79,14 +127,18 @@ export default function Habits() {
             )}
           </Dias>
           <Botoes>
-            <Cancelar>Cancelar</Cancelar>
-            <Salvar>Salvar</Salvar>
+            <Cancelar type="reset">Cancelar</Cancelar>
+            <Salvar type="submit">Salvar</Salvar>
           </Botoes>
         </Form>
-        <p>
-          Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-          começar a trackear!
-        </p>
+        {habits.length === 0 ? (
+          <p>
+            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
+            começar a trackear!
+          </p>
+        ) : (
+          habits.map((dado, i) => <Habito runEffect={runEffect} setRunEffect={setRunEffect} key={i} dado={dado} />)
+        )}
       </MyHabits>
       <Bottom />
     </Container>
@@ -118,18 +170,19 @@ const MyHabits = styled.div`
   align-items: center;
   width: 90%;
   margin-top: 28px;
-  span {
-    font-family: "Lexend Deca", sans-serif;
-    line-height: 29px;
-    color: #126ba5;
-    font-size: 22.98px;
-  }
   p {
     font-family: "Lexend Deca", sans-serif;
     font-size: 17.976px;
     color: #666666;
     margin-top: 30px;
   }
+`;
+
+const Title = styled.span`
+  font-family: "Lexend Deca", sans-serif;
+  line-height: 29px;
+  color: #126ba5;
+  font-size: 22.98px;
 `;
 
 const Add = styled.div`

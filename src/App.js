@@ -8,13 +8,14 @@ import GlobalStyle from "./assets/styles/GlobalStyle";
 import Today from "./pages/hoje/Today";
 import { useState } from "react";
 import MyContext from "./components/MyContext";
-
+import { ModalProvider } from "react-modal-hook";
 function App() {
   const [dados, setDados] = useState({});
   return (
     <MyContext.Provider
       value={{ dados, setDados }}
     >
+      <ModalProvider>
       <BrowserRouter>
         <ResetCSS />
         <GlobalStyle />
@@ -26,6 +27,7 @@ function App() {
           <Route path="/historico" element={<Historic />} />
         </Routes>
       </BrowserRouter>
+      </ModalProvider>
     </MyContext.Provider>
   );
 }

@@ -3,7 +3,7 @@ import Border from "../assets/images/Vector.png";
 import Ball from "../assets/images/Ellipse 4.png";
 import { useNavigate } from "react-router-dom";
 
-export default function Bpttom() {
+export default function Bottom() {
   const navigate = useNavigate()
   function linkHabitos() {
     navigate("/habitos")
@@ -22,7 +22,7 @@ export default function Bpttom() {
       <BordBall1 src={Ball} alt="element border" />
       <BordBall2 src={Ball} alt="element border" />
       </div>
-      <span onClick={linkHistorico}>Histótico</span>
+      <span onClick={linkHistorico}>Histórico</span>
     </Bot>
   );
 }

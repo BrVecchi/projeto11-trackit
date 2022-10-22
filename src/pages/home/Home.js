@@ -1,13 +1,12 @@
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../assets/images/Logo.png";
 import MyContext from "../../components/MyContext";
 
 export default function Home() {
-  const { dados, setDados } = useContext(MyContext)
-  console.log(dados)
+  const { setDados } = useContext(MyContext)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
