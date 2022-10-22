@@ -90,7 +90,12 @@ export default function Habits() {
       setButtonColor(novoButtonColor);
     })
   }
-
+  function clearInput() {
+    const novohabitName = ""
+    const novoDiasMarcados = []
+    setHabitName(novohabitName)
+    setDiasMarcados(novoDiasMarcados)
+  }
   return (
     <Container>
       <Header />
@@ -127,7 +132,7 @@ export default function Habits() {
             )}
           </Dias>
           <Botoes>
-            <Cancelar type="reset">Cancelar</Cancelar>
+            <Cancelar onClick={clearInput} type="reset">Cancelar</Cancelar>
             <Salvar type="submit">Salvar</Salvar>
           </Botoes>
         </Form>
