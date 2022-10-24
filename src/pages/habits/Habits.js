@@ -88,6 +88,7 @@ export default function Habits() {
       setToggleLoading(false);
       setDisabled(false);
       setPointer("");
+      setHabitName("")
 
       request.catch(() => {
         alert("Algo errado ocorreu, revise os dados e tente novamente.");

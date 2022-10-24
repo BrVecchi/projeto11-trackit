@@ -1,8 +1,14 @@
 import Header from "../../components/Header";
 import Bottom from "../../components/Bottom";
 import styled from "styled-components";
+import { useState } from "react";
+import { Calendar } from "react-calendar";
+import 'react-calendar/dist/Calendar.css'
 
 export default function Historic() {
+
+  const [value, onChange] = useState(new Date());
+
   return (
     <Container>
       <Header />
@@ -10,7 +16,7 @@ export default function Historic() {
         <Top>
           <span>Meu histórico</span>
         </Top>
-        <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
+        <Calendar onChange={onChange} value={null} />
       </MyHistoric>
       <Bottom />
     </Container>

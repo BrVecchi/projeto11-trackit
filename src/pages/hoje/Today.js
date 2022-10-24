@@ -73,8 +73,8 @@ export default function Today() {
           {todayHabits.lenght === 0 ? (
             <p>Você não tem tarefas hoje, vá jogar ;p</p>
           ) : (
-            todayHabits.map((habit) => (
-              <HabitoDiario weekDay={weekDay} habit={habit} />
+            todayHabits.map((habit, i) => (
+              <HabitoDiario key={i} weekDay={weekDay} habit={habit} />
             ))
           )}
         </MyToday>
