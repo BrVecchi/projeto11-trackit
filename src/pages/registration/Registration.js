@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../assets/images/Logo.png";
@@ -9,13 +10,16 @@ export default function Registration() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [photo, setPhoto] = useState("");
+  const [toggleLoading, setToggleLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
-  console.log(email)
-  
+  console.log(email);
 
   const navigate = useNavigate();
 
   function signUp(event) {
+    setToggleLoading(true);
+    setDisabled(true);
     event.preventDefault();
     const request = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up",
@@ -23,19 +27,24 @@ export default function Registration() {
         email: email,
         name: name,
         image: photo,
-        password: password
+        password: password,
       }
-    )
+    );
     request.then(() => {
-      alert("Conta registrada com sucesso!")
-      navigate("/")})
+      alert("Conta registrada com sucesso!");
+      navigate("/");
+      setToggleLoading(false);
+      setDisabled(false);
+    });
     request.catch(() => {
-      alert("Algo foi digitado incorretamente, tente novamente..")
-      setEmail("")
-      setName("")
-      setPassword("")
-      setPhoto("")
-    })
+      alert("Algo foi digitado incorretamente, tente novamente..");
+      setEmail("");
+      setName("");
+      setPassword("");
+      setPhoto("");
+      setToggleLoading(false);
+      setDisabled(false);
+    });
   }
   return (
     <Container>
@@ -44,6 +53,7 @@ export default function Registration() {
       </Image>
       <Form onSubmit={signUp}>
         <input
+          disabled={disabled}
           required
           id="email"
           name="email"
@@ -53,6 +63,7 @@ export default function Registration() {
           type="email"
         />
         <input
+          disabled={disabled}
           required
           id="password"
           name="password"
@@ -62,6 +73,7 @@ export default function Registration() {
           type="password"
         />
         <input
+          disabled={disabled}
           required
           id="name"
           name="name"
@@ -71,6 +83,7 @@ export default function Registration() {
           type="text"
         />
         <input
+          disabled={disabled}
           required
           id="photo"
           name="photo"
@@ -79,7 +92,20 @@ export default function Registration() {
           placeholder=" escolha sua foto de perfil.."
           type="url"
         />
-        <button type="submit">Entrar</button>
+        {toggleLoading === false ? (
+          <button disabled={disabled} type="submit">
+            Entrar
+          </button>
+        ) : (
+          <ThreeDots
+            height="45"
+            width="70"
+            radius="9"
+            color="#52b6ff"
+            ariaLabel="three-dots-loading"
+            visible={true}
+          />
+        )}
       </Form>
       <Link color="#52B6FF" to="/">
         Já tem uma conta? Faça loggin!

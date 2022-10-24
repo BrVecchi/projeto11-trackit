@@ -67,6 +67,6 @@ const Borda = styled.div`
   text {
     font-size: 18px;
     position: absolute;
-    transform: translate(-18%, 4%);
+    transform: translate(-19%, 4%);
   }
 `;

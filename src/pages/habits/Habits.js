@@ -17,6 +17,8 @@ export default function Habits() {
   const [habitName, setHabitName] = useState("");
   const [runEffect, setRunEffect] = useState(0);
   const [toggleLoading, setToggleLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [pointer, setPointer] = useState("");
 
   useEffect(() => {
     const request = axios.get(
@@ -62,6 +64,8 @@ export default function Habits() {
   }
 
   function saveHabit(e) {
+    setPointer("none");
+    setDisabled(true);
     setToggleLoading(true);
     e.preventDefault();
     const novoButtonSymbol = "+";
@@ -82,6 +86,15 @@ export default function Habits() {
       setButtonSymbol(novoButtonSymbol);
       setButtonColor(novoButtonColor);
       setToggleLoading(false);
+      setDisabled(false);
+      setPointer("");
+
+      request.catch(() => {
+        alert("Algo errado ocorreu, revise os dados e tente novamente.");
+        setToggleLoading(false);
+        setDisabled(false);
+        setPointer("");
+      });
     });
   }
   function clearInput() {
@@ -103,6 +116,7 @@ export default function Habits() {
         <Form onSubmit={saveHabit} display={formState}>
           <NomeHabito
             required
+            disabled={disabled}
             id="habit"
             name="habit"
             value={habitName}
@@ -113,12 +127,20 @@ export default function Habits() {
           <Dias>
             {DIAS.map((dia, i) =>
               diasMarcados.includes(dia.day) ? (
-                <DiaEscolhido key={i} onClick={() => marcarDia(dia)}>
+                <DiaEscolhido
+                  key={i}
+                  pointer={pointer}
+                  onClick={() => marcarDia(dia)}
+                >
                   {" "}
                   {dia.name}{" "}
                 </DiaEscolhido>
               ) : (
-                <DiaDisponivel key={i} onClick={() => marcarDia(dia)}>
+                <DiaDisponivel
+                  key={i}
+                  pointer={pointer}
+                  onClick={() => marcarDia(dia)}
+                >
                   {" "}
                   {dia.name}{" "}
                 </DiaDisponivel>
@@ -253,6 +275,7 @@ const DiaDisponivel = styled.li`
   font-size: 19.976px;
   line-height: normal;
   text-align: center;
+  pointer-events: ${(props) => props.pointer};
 `;
 
 const DiaEscolhido = styled.li`
@@ -267,6 +290,7 @@ const DiaEscolhido = styled.li`
   font-size: 19.976px;
   line-height: normal;
   text-align: center;
+  pointer-events: ${(props) => props.pointer};
 `;
 
 const NomeHabito = styled.input`

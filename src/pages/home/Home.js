@@ -12,9 +12,11 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [toggleLoading, setToggleLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   function signIn(event) {
-    setToggleLoading(true)
+    setToggleLoading(true);
+    setDisabled(true);
     event.preventDefault();
     const request = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
@@ -26,12 +28,15 @@ export default function Home() {
     request.then((res) => {
       setDados(res.data);
       navigate("/habitos");
-      setToggleLoading(false)
+      setToggleLoading(false);
+      setDisabled(false);
     });
     request.catch(() => {
       alert("Esses dados de loggin não são compatíveis, tente novamente..");
       setEmail("");
       setPassword("");
+      setToggleLoading(false);
+      setDisabled(false);
     });
   }
 
@@ -43,6 +48,7 @@ export default function Home() {
       <Form onSubmit={signIn}>
         <input
           required
+          disabled={disabled}
           id="email"
           name="email"
           value={email}
@@ -52,6 +58,7 @@ export default function Home() {
         />
         <input
           required
+          disabled={disabled}
           id="password"
           name="password"
           value={password}
@@ -60,7 +67,9 @@ export default function Home() {
           type="password"
         />
         {toggleLoading === false ? (
-          <button type="submit">Entrar</button>
+          <button disabled={disabled} type="submit">
+            Entrar
+          </button>
         ) : (
           <ThreeDots
             height="45"
@@ -134,8 +143,7 @@ const Form = styled.form`
 `;
 
 const Image = styled.div`
-  width: 180px;
-
+  width: 220px;
   img {
     width: 100%;
   }
