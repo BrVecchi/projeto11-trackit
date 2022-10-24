@@ -47,6 +47,7 @@ export default function Home() {
       </Image>
       <Form onSubmit={signIn}>
         <input
+          data-identifier="input-email"
           required
           disabled={disabled}
           id="email"
@@ -57,6 +58,7 @@ export default function Home() {
           type="email"
         />
         <input
+          data-identifier="input-password"
           required
           disabled={disabled}
           id="password"
@@ -67,7 +69,7 @@ export default function Home() {
           type="password"
         />
         {toggleLoading === false ? (
-          <button disabled={disabled} type="submit">
+          <button data-identifier="login-btn" disabled={disabled} type="submit">
             Entrar
           </button>
         ) : (
@@ -81,7 +83,7 @@ export default function Home() {
           />
         )}
       </Form>
-      <Link color="#52B6FF" to="/cadastro">
+      <Link data-identifier="sign-up-action" color="#52B6FF" to="/cadastro">
         Não tem uma conta? Cadastre-se!
       </Link>
     </Container>

@@ -109,12 +109,13 @@ export default function Habits() {
       <MyHabits>
         <Top>
           <Title>Meus hábitos</Title>
-          <Add color={buttonColor} onClick={abrirForm}>
+          <Add data-identifier="create-habit-btn" color={buttonColor} onClick={abrirForm}>
             {buttonSymbol}
           </Add>
         </Top>
         <Form onSubmit={saveHabit} display={formState}>
           <NomeHabito
+          data-identifier="input-habit-name"
             required
             disabled={disabled}
             id="habit"
@@ -127,7 +128,7 @@ export default function Habits() {
           <Dias>
             {DIAS.map((dia, i) =>
               diasMarcados.includes(dia.day) ? (
-                <DiaEscolhido
+                <DiaEscolhido data-identifier="week-day-btn"
                   key={i}
                   pointer={pointer}
                   onClick={() => marcarDia(dia)}
@@ -136,7 +137,7 @@ export default function Habits() {
                   {dia.name}{" "}
                 </DiaEscolhido>
               ) : (
-                <DiaDisponivel
+                <DiaDisponivel data-identifier="week-day-btn"
                   key={i}
                   pointer={pointer}
                   onClick={() => marcarDia(dia)}
@@ -149,10 +150,10 @@ export default function Habits() {
           </Dias>
           {toggleLoading === false ? (
             <Botoes>
-              <Cancelar onClick={clearInput} type="reset">
+              <Cancelar data-identifier="cancel-habit-create-btn" onClick={clearInput} type="reset">
                 Cancelar
               </Cancelar>
-              <Salvar type="submit">Salvar</Salvar>
+              <Salvar data-identifier="save-habit-create-btn" type="submit">Salvar</Salvar>
             </Botoes>
           ) : (
             <Botoes>
@@ -168,7 +169,7 @@ export default function Habits() {
           )}
         </Form>
         {habits.length === 0 ? (
-          <p>
+          <p data-identifier="no-habit-message">
             Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
             começar a trackear!
           </p>

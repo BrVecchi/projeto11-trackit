@@ -27,7 +27,7 @@ export default function HabitoDiario({ habit }) {
   }
 
   return (
-    <Container>
+    <Container data-identifier="today-infos">
       <Right>
         <Top>
           <Nome>{name}</Nome>
@@ -54,7 +54,7 @@ export default function HabitoDiario({ habit }) {
         </Left>
       ) : (
         <Left background="#EBEBEB">
-          <button onClick={check}>
+          <button data-identifier="done-habit-btn" onClick={check}>
             <BsCheckLg size="35px" color="#ffffff" />
           </button>
         </Left>

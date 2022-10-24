@@ -17,7 +17,7 @@ export default function Header() {
       <Logo onClick={goHome}>
         <img src={TextLogo} alt="Logo text" />
       </Logo>
-      <User>
+      <User data-identifier="avatar">
         <img src={dados.image} alt="User" />
       </User>
     </Head>

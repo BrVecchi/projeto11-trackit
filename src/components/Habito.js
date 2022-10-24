@@ -37,10 +37,10 @@ export default function Habito({ dado, runEffect, setRunEffect }) {
   return (
     <Container>
       <Top>
-        <Nome>{dado.name}</Nome>
+        <Nome data-identifier="habit-name">{dado.name}</Nome>
         <Icon>
           {toggleDelete === false ? (
-            <BsTrash size={18} onClick={changeIcon} color="#666666" />
+            <BsTrash data-identifier="delete-habit-btn" size={18} onClick={changeIcon} color="#666666" />
           ) : toggleLoading === false ? (
             <Botoes>
               <Cancelar>Cancelar</Cancelar>

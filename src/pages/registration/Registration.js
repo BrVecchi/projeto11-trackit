@@ -53,6 +53,7 @@ export default function Registration() {
       </Image>
       <Form onSubmit={signUp}>
         <input
+          data-identifier="input-email"
           disabled={disabled}
           required
           id="email"
@@ -63,6 +64,7 @@ export default function Registration() {
           type="email"
         />
         <input
+          data-identifier="input-password"
           disabled={disabled}
           required
           id="password"
@@ -73,6 +75,7 @@ export default function Registration() {
           type="password"
         />
         <input
+          data-identifier="input-name"
           disabled={disabled}
           required
           id="name"
@@ -83,6 +86,7 @@ export default function Registration() {
           type="text"
         />
         <input
+          data-identifier="input-photo"
           disabled={disabled}
           required
           id="photo"
@@ -107,7 +111,7 @@ export default function Registration() {
           />
         )}
       </Form>
-      <Link color="#52B6FF" to="/">
+      <Link data-identifier="back-to-login-action" color="#52B6FF" to="/">
         Já tem uma conta? Faça loggin!
       </Link>
     </Container>

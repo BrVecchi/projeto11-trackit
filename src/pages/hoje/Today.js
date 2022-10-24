@@ -59,15 +59,15 @@ export default function Today() {
       {toggleLoading === false ? (
         <MyToday>
           <Top>
-            <Title>
+            <Title data-identifier="today-infos">
               {semana}, {data}
             </Title>
             {completePercentage !== 0 ? (
-              <Concluido>
+              <Concluido data-identifier="today-infos">
                 {completePercentage}% dos hábitos concluídos!
               </Concluido>
             ) : (
-              <NenhumConcluido>Nenhum hábito concluído ainda</NenhumConcluido>
+              <NenhumConcluido data-identifier="today-infos">Nenhum hábito concluído ainda</NenhumConcluido>
             )}
           </Top>
           {todayHabits.lenght === 0 ? (

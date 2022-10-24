@@ -19,7 +19,7 @@ export default function Bottom() {
   }
   return (
     <Bot>
-      <span onClick={linkHabitos}>Hábitos</span>
+      <span data-identifier="habit-page-action" onClick={linkHabitos}>Hábitos</span>
       <Borda onClick={linkHoje}>
         <CircularProgressbar
           value={completePercentage}
@@ -34,7 +34,7 @@ export default function Bottom() {
           })}
         />
       </Borda>
-      <span onClick={linkHistorico}>Histórico</span>
+      <span data-identifier="historic-page-action" onClick={linkHistorico}>Histórico</span>
     </Bot>
   );
 }
