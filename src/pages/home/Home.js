@@ -1,34 +1,38 @@
 import axios from "axios";
 import { useContext, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../assets/images/Logo.png";
 import MyContext from "../../components/MyContext";
 
 export default function Home() {
-  const { setDados } = useContext(MyContext)
+  const { setDados } = useContext(MyContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [toggleLoading, setToggleLoading] = useState(false);
 
   function signIn(event) {
+    setToggleLoading(true)
     event.preventDefault();
     const request = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
       {
         email: email,
-        password: password
+        password: password,
       }
-    )
+    );
     request.then((res) => {
-      setDados(res.data)
-      navigate("/habitos")
-    })
+      setDados(res.data);
+      navigate("/habitos");
+      setToggleLoading(false)
+    });
     request.catch(() => {
-      alert("Esses dados de loggin não são compatíveis, tente novamente..")
-      setEmail("")
-      setPassword("")
-    })
+      alert("Esses dados de loggin não são compatíveis, tente novamente..");
+      setEmail("");
+      setPassword("");
+    });
   }
 
   return (
@@ -55,7 +59,18 @@ export default function Home() {
           placeholder=" digite sua senha.."
           type="password"
         />
-        <button type="submit">Entrar</button>
+        {toggleLoading === false ? (
+          <button type="submit">Entrar</button>
+        ) : (
+          <ThreeDots
+            height="45"
+            width="70"
+            radius="9"
+            color="#52b6ff"
+            ariaLabel="three-dots-loading"
+            visible={true}
+          />
+        )}
       </Form>
       <Link color="#52B6FF" to="/cadastro">
         Não tem uma conta? Cadastre-se!

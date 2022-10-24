@@ -1,62 +1,70 @@
 import styled from "styled-components";
 import { BsTrash } from "react-icons/bs";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import MyContext from "./MyContext";
-import ReactModal from "react-modal";
-import { useModal } from "react-modal-hook";
 
+import { ThreeDots } from "react-loader-spinner";
 export default function Habito({ dado, runEffect, setRunEffect }) {
-  const [showModal, hideModal] = useModal(() => (
-    <ReactModal isOpen>
-      <ModalContainer>
-        <Modal>
-          <p>Excluir o hábito?</p>
-          <Botoes>
-            <Cancelar onClick={hideModal}>Cancelar</Cancelar>
-            <Confirmar
-              onClick={() => {
-                removeHabit();
-                hideModal();
-              }}
-            >
-              Confirmar
-            </Confirmar>
-          </Botoes>
-        </Modal>
-      </ModalContainer>
-    </ReactModal>
-  ));
-  const { dados } = useContext(MyContext);
+  const [toggleLoading, setToggleLoading] = useState(false);
+  const [toggleDelete, setToggleDelete] = useState(false);
+  const { dados, DIAS } = useContext(MyContext);
   const days = dado.days;
   const token = dados.token;
   const id = dado.id;
   const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`;
-  console.log(URL);
-  const DIAS = [
-    { name: "D", day: 0 },
-    { name: "S", day: 1 },
-    { name: "T", day: 2 },
-    { name: "Q", day: 3 },
-    { name: "Q", day: 4 },
-    { name: "S", day: 5 },
-    { name: "S", day: 6 },
-  ];
+
+  function changeIcon() {
+    setToggleDelete(true);
+  }
 
   function removeHabit() {
+    setToggleLoading(true);
     const request = axios.delete(URL, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    request.then(() => setRunEffect(runEffect + 1));
-    request.catch(() =>
-      alert("Problemas no servidor, tente novamente mais tarde!")
-    );
+    request.then(() => {
+      setRunEffect(runEffect + 1);
+      setToggleLoading(false);
+      setToggleDelete(false)
+    });
+    request.catch(() => {
+      alert("Problemas no servidor, tente novamente mais tarde!");
+      setToggleLoading(false);
+      setToggleDelete(false)
+    });
   }
   return (
     <Container>
       <Top>
         <Nome>{dado.name}</Nome>
-        <BsTrash onClick={showModal} color="#666666" />
+        <Icon>
+          {toggleDelete === false ? (
+            <BsTrash size={18} onClick={changeIcon} color="#666666" />
+          ) : toggleLoading === false ? (
+            <Botoes>
+              <Cancelar>Cancelar</Cancelar>
+              <Confirmar
+                onClick={() => {
+                  removeHabit();
+                }}
+              >
+                Confirmar
+              </Confirmar>
+            </Botoes>
+          ) : (
+            <Botoes>
+              <ThreeDots
+                height="45"
+                width="70"
+                radius="9"
+                color="#52b6ff"
+                ariaLabel="three-dots-loading"
+                visible={true}
+              />
+            </Botoes>
+          )}
+        </Icon>
       </Top>
       <Dias>
         {DIAS.map((dia, i) =>
@@ -80,7 +88,7 @@ const Container = styled.div`
   padding: 14px;
   background-color: #ffffff;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 `;
 const Top = styled.div`
   width: 100%;
@@ -93,6 +101,10 @@ const Nome = styled.span`
   font-family: "Lexend Deca", sans-serif;
   font-size: 19.976px;
   color: #666666;
+  word-break: break-all;
+`;
+const Icon = styled.div`
+  padding-left: 20px;
 `;
 
 const Dias = styled.ul`
@@ -131,42 +143,17 @@ const DiaEscolhido = styled.li`
   text-align: center;
 `;
 
-const ModalContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Modal = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  display: flex;
-  border-radius: 2%;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #dbdbdb;
-  p {
-    font-family: "Lexend Deca", sans-serif;
-    font-size: 19.976px;
-    color: #666666;
-  }
-`;
-
 const Botoes = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 25px;
   width: 100%;
-  margin-top: 25px;
-  margin-bottom: 180px;
+  margin-right: 15px;
 `;
 
 const Cancelar = styled.button`
-  width: 40%;
+  width: 45%;
   height: 35px;
   border: 1px solid #ffffff;
   background-color: #ffffff;
@@ -178,7 +165,7 @@ const Cancelar = styled.button`
 `;
 
 const Confirmar = styled.button`
-  width: 40%;
+  width: 45%;
   height: 35px;
   background: #52b6ff;
   border-radius: 4.6px;

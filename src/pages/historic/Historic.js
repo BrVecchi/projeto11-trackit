@@ -24,6 +24,7 @@ const Container = styled.div`
   height: 100vh;
   width: 100%;
   margin-top: 70px;
+  margin-bottom: 70px;
   background: #f2f2f2;
 `;
 

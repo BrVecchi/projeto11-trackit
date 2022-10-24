@@ -5,26 +5,18 @@ import Bottom from "../../components/Bottom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Habito from "../../components/Habito";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Habits() {
-  const { dados } = useContext(MyContext);
-  const [habits, setHabits] = useState([]);
-  const DIAS = [
-    { name: "D", day: 0 },
-    { name: "S", day: 1 },
-    { name: "T", day: 2 },
-    { name: "Q", day: 3 },
-    { name: "Q", day: 4 },
-    { name: "S", day: 5 },
-    { name: "S", day: 6 },
-  ];
+  const { dados, habits, setHabits, DIAS } = useContext(MyContext);
   const token = dados.token;
   const [diasMarcados, setDiasMarcados] = useState([]);
   const [formState, setFormState] = useState("none");
   const [buttonSymbol, setButtonSymbol] = useState("+");
   const [buttonColor, setButtonColor] = useState("#52b6ff");
   const [habitName, setHabitName] = useState("");
-  const [runEffect, setRunEffect] = useState(0)
+  const [runEffect, setRunEffect] = useState(0);
+  const [toggleLoading, setToggleLoading] = useState(false);
 
   useEffect(() => {
     const request = axios.get(
@@ -70,6 +62,7 @@ export default function Habits() {
   }
 
   function saveHabit(e) {
+    setToggleLoading(true);
     e.preventDefault();
     const novoButtonSymbol = "+";
     const novoButtonColor = "#52b6ff";
@@ -83,18 +76,19 @@ export default function Habits() {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    request.then(() =>{
-      setFormState("none")
-      setRunEffect(runEffect+1)
-      setButtonSymbol(novoButtonSymbol)
+    request.then(() => {
+      setFormState("none");
+      setRunEffect(runEffect + 1);
+      setButtonSymbol(novoButtonSymbol);
       setButtonColor(novoButtonColor);
-    })
+      setToggleLoading(false);
+    });
   }
   function clearInput() {
-    const novohabitName = ""
-    const novoDiasMarcados = []
-    setHabitName(novohabitName)
-    setDiasMarcados(novoDiasMarcados)
+    const novohabitName = "";
+    const novoDiasMarcados = [];
+    setHabitName(novohabitName);
+    setDiasMarcados(novoDiasMarcados);
   }
   return (
     <Container>
@@ -131,10 +125,25 @@ export default function Habits() {
               )
             )}
           </Dias>
-          <Botoes>
-            <Cancelar onClick={clearInput} type="reset">Cancelar</Cancelar>
-            <Salvar type="submit">Salvar</Salvar>
-          </Botoes>
+          {toggleLoading === false ? (
+            <Botoes>
+              <Cancelar onClick={clearInput} type="reset">
+                Cancelar
+              </Cancelar>
+              <Salvar type="submit">Salvar</Salvar>
+            </Botoes>
+          ) : (
+            <Botoes>
+              <ThreeDots
+                height="45"
+                width="70"
+                radius="9"
+                color="#52b6ff"
+                ariaLabel="three-dots-loading"
+                visible={true}
+              />
+            </Botoes>
+          )}
         </Form>
         {habits.length === 0 ? (
           <p>
@@ -142,7 +151,14 @@ export default function Habits() {
             começar a trackear!
           </p>
         ) : (
-          habits.map((dado, i) => <Habito runEffect={runEffect} setRunEffect={setRunEffect} key={i} dado={dado} />)
+          habits.map((dado, i) => (
+            <Habito
+              runEffect={runEffect}
+              setRunEffect={setRunEffect}
+              key={i}
+              dado={dado}
+            />
+          ))
         )}
       </MyHabits>
       <Bottom />
@@ -157,6 +173,7 @@ const Container = styled.div`
   height: 100vh;
   width: 100%;
   margin-top: 70px;
+  margin-bottom: 70px;
   background: #f2f2f2;
 `;
 
