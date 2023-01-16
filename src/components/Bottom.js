@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import { useContext } from "react";
 import MyContext from "./MyContext";
-import { BsFileX } from "react-icons/bs";
 
 export default function Bottom() {
   const { completePercentage } = useContext(MyContext);

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import MyContext from "./MyContext";
 import { BsCheckLg } from "react-icons/bs";
 import axios from "axios";
